@@ -1,4 +1,6 @@
 #include <netinet/in.h>
+#include <string>
+
 class Client {
     private:
         int clientSocket;
@@ -6,6 +8,6 @@ class Client {
     public:
         Client();
         void connectToServer();
-        void sendMessToServer(string message);
+        void sendMessToServer(std::string message);
         ~Client();
 };
