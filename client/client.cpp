@@ -16,12 +16,15 @@ Client::Client()
 
 void Client::connectToServer()
 {
-    connect(this->clientSocket, (struct sockaddr*)&this->serverAddress, sizeof(this->serverAddress));
+    int con = connect(this->clientSocket, (struct sockaddr*)&this->serverAddress, sizeof(this->serverAddress));
+    if (con != -1) {
+        cout << "Connected to server " << endl;
+    }
 }
 
-void Client::sendMessToServer(char* message)
+void Client::sendMessToServer(string message)
 {
-    send(this->clientSocket, message, strlen(message), 0);
+    send(this->clientSocket, message.c_str(), message.length(), 0);
 }
 
 Client::~Client()

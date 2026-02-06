@@ -6,6 +6,6 @@ class Client {
     public:
         Client();
         void connectToServer();
-        void sendMessToServer(char* message);
+        void sendMessToServer(string message);
         ~Client();
 };
