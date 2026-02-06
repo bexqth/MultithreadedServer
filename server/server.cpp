@@ -23,9 +23,20 @@ void Server::startServer()
 
 void Server::handleClient()
 {
-    char buffer[1024] = {0};
-    recv(this->clientSocket, buffer, sizeof(buffer), 0);
-    cout << "Message from client: " << buffer << endl;
+    while (true) {
+        char buffer[1024] = {0};
+        int bytes = recv(this->clientSocket, buffer, sizeof(buffer), 0);
+
+        if(bytes <= 0) {
+            cout << "Client disconnected: " << endl;
+            close(this->clientSocket);
+            break;
+        }
+
+        cout << "Message from client: " << buffer << endl;
+
+
+    }
 }
 
 Server::~Server()
