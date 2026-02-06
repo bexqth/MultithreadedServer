@@ -1,0 +1,30 @@
+#include "client.h"
+#include <cstring>
+#include <iostream>
+#include <sys/socket.h>
+#include <unistd.h>
+
+using namespace std;
+
+Client::Client()
+{
+    this->clientSocket = socket(AF_INET, SOCK_STREAM, 0);
+    this->serverAddress.sin_family = AF_INET;
+    this->serverAddress.sin_port = htons(8080);
+    this->serverAddress.sin_addr.s_addr = INADDR_ANY;
+}
+
+void Client::connectToServer()
+{
+    connect(this->clientSocket, (struct sockaddr*)&this->serverAddress, sizeof(this->serverAddress));
+}
+
+void Client::sendMessToServer(char* message)
+{
+    send(this->clientSocket, message, strlen(message), 0);
+}
+
+Client::~Client()
+{
+    close(this->clientSocket);
+}
