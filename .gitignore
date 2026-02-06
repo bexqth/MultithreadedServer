@@ -1,0 +1,10 @@
+
+main
+
+*.dSYM/
+.DS_Store
+
+.vscode/
+
+*.o
+*.out
