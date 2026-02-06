@@ -8,5 +8,6 @@ class Server {
     public:
         Server();
         void startServer();
+        void handleClient();
         ~Server();
 };
