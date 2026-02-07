@@ -3,11 +3,12 @@
 class Server {
     private:
         int serverSocket;
-        int clientSocket;
+        //int clientSocket;
         sockaddr_in serverAddress;
+        vector<thread> threads;
     public:
         Server();
         void startServer();
-        void handleClient();
+        void handleClient(int clientSocket);
         ~Server();
 };

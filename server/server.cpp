@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <thread>
 
 using namespace std;
 
@@ -18,29 +19,35 @@ Server::Server() {
 void Server::startServer()
 {
     listen(this->serverSocket, 5);
-    this->clientSocket = accept(this->serverSocket, nullptr, nullptr);
+    while(true) {
+        cout << "waiting for connecting " << endl;
+
+        int clientSocket = accept(this->serverSocket, nullptr, nullptr);
+        cout << "connected client " << clientSocket << endl;
+
+        thread clientThread(&Server::handleClient, this, clientSocket);
+        clientThread.detach();
+        this->threads.push_back(move(clientThread));
+    }
 }
 
-void Server::handleClient()
+void Server::handleClient(int clientSocket)
 {
     while (true) {
         char buffer[1024] = {0};
-        int bytes = recv(this->clientSocket, buffer, sizeof(buffer), 0);
+        int bytes = recv(clientSocket, buffer, sizeof(buffer), 0);
 
         if(bytes <= 0) {
             cout << "Client disconnected: " << endl;
-            close(this->clientSocket);
+            close(clientSocket);
             break;
         }
-
         cout << "Message from client: " << buffer << endl;
-
-
     }
 }
 
 Server::~Server()
 {
-    close(this->clientSocket);
+    //close(this->clientSocket);
     close(this->serverSocket);
 }

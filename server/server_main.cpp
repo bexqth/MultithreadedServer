@@ -4,6 +4,6 @@
 int main() {
     Server server;
     server.startServer();
-    server.handleClient();
+    //server.handleClient(int clientSocket);
     return 0;
 }
