@@ -40,6 +40,19 @@ void Server::startServer()
     }
 }
 
+void Server::informOtherClients(int clientSocket)
+{
+    unique_lock<mutex> clientSocketsLock(this->clientSocketsMutex);
+    for (size_t i = 0; i < this->clientSockets.size(); i++)
+    {   
+        if (clientSockets[i] != clientSocket) {
+            string response = "Other client took from storage. Left in storage " + to_string(this->storage) + "\n";
+            send(clientSockets[i], response.c_str(), response.length(), 0);
+        }
+    }
+    clientSocketsLock.unlock();
+}
+
 void Server::handleClient(int clientSocket)
 {
     while (true) {
@@ -59,8 +72,9 @@ void Server::handleClient(int clientSocket)
                 this->storage -= valueRequest;
                 cout << "Client took " << valueRequest << endl;
                 cout << "Left in storage " << this->storage << endl;
-                std::string responseToClient = "U took " + to_string(valueRequest) + ". Left in storage " + to_string(this->storage) + "\n"; 
+                string responseToClient = "U took " + to_string(valueRequest) + ". Left in storage " + to_string(this->storage) + "\n"; 
                 send(clientSocket, responseToClient.c_str(), responseToClient.length(), 0);
+                informOtherClients(clientSocket);
             }
             //cout << "Message from client: " <<  clientSocket << " "<< buffer << endl;
             lock.unlock();

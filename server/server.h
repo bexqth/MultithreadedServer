@@ -14,6 +14,7 @@ class Server {
     public:
         Server();
         void startServer();
+        void informOtherClients(int clientSocket);
         void handleClient(int clientSocket);
         ~Server();
 };
