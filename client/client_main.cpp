@@ -10,7 +10,7 @@ int main() {
     string userInput;
     if (connected) {
         while(userInput != "end") {
-        cout << "Enter message to be sent (type 'end' to quit): " << endl;
+        cout << "How much to take from storage (type 'end' to quit): " << endl;
         
         getline(cin, userInput);
         

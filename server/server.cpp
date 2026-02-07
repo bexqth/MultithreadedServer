@@ -8,6 +8,7 @@
 using namespace std;
 
 Server::Server() {
+    this->storage = 100;
     this->serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     this->serverAddress.sin_family = AF_INET;
     this->serverAddress.sin_port = htons(8080);
@@ -42,13 +43,25 @@ void Server::handleClient(int clientSocket)
     while (true) {
         char buffer[1024] = {0};
         int bytes = recv(clientSocket, buffer, sizeof(buffer), 0);
-
+        
         if(bytes <= 0) {
             cout << "Client disconnected: " << endl;
             close(clientSocket);
             break;
+        } else {
+            unique_lock<mutex> lock(this->mtx);
+            int valueRequest = atoi(buffer);
+            if (this->storage - valueRequest < 0) {
+                cout << "No enough in storage " << endl;
+            } else {
+                this->storage -= valueRequest;
+                cout << "Client took " << valueRequest << endl;
+                cout << "Left in storage " << this->storage << endl;
+            }
+            //cout << "Message from client: " <<  clientSocket << " "<< buffer << endl;
+            lock.unlock();
         }
-        cout << "Message from client: " << buffer << endl;
+
     }
 }
 

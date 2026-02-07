@@ -5,6 +5,8 @@
 class Server {
     private:
         int serverSocket;
+        int storage; //shared data
+        std::mutex mtx;
         //int clientSocket;
         sockaddr_in serverAddress;
         std::vector<std::thread> threads;
