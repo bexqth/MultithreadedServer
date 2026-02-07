@@ -9,7 +9,8 @@ class Server {
         std::mutex mtx;
         //int clientSocket;
         sockaddr_in serverAddress;
-        std::vector<std::thread> threads;
+        std::vector<int> clientSockets;
+        std::mutex clientSocketsMutex;
     public:
         Server();
         void startServer();

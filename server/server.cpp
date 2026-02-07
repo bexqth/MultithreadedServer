@@ -31,8 +31,10 @@ void Server::startServer()
         int clientSocket = accept(this->serverSocket, nullptr, nullptr);
         cout << "connected client " << clientSocket << endl;
 
+        unique_lock clientSocketsLock(this->clientSocketsMutex);
+        this->clientSockets.push_back(clientSocket);
         thread clientThread(&Server::handleClient, this, clientSocket);
-        //this->threads.push_back(std::move(clientThread));
+        clientSocketsLock.unlock();
         
         clientThread.detach();
     }

@@ -6,5 +6,8 @@ main
 
 .vscode/
 
+client/client_app
+server/server_app
+
 *.o
 *.out
