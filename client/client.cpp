@@ -32,6 +32,17 @@ void Client::sendMessToServer(string message)
     send(this->clientSocket, message.c_str(), message.length(), 0);
 }
 
+void Client::recieveMessFromServer()
+{
+    char buffer[1024] = {0};
+    int bytes = recv(this->clientSocket, buffer, sizeof(buffer), 0);
+    if (bytes > 0) {
+        cout << "Server answer: " << buffer << endl;
+    } else {
+        cout << "Connection lost" << endl;
+    }
+}
+
 Client::~Client()
 {
     close(this->clientSocket);

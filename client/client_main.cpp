@@ -19,6 +19,7 @@ int main() {
         }
 
         client.sendMessToServer(userInput);
+        client.recieveMessFromServer();
         }
     }
     return 0;

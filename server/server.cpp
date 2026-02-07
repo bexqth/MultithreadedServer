@@ -57,6 +57,8 @@ void Server::handleClient(int clientSocket)
                 this->storage -= valueRequest;
                 cout << "Client took " << valueRequest << endl;
                 cout << "Left in storage " << this->storage << endl;
+                std::string responseToClient = "U took " + to_string(valueRequest) + ". Left in storage " + to_string(this->storage) + "\n"; 
+                send(clientSocket, responseToClient.c_str(), responseToClient.length(), 0);
             }
             //cout << "Message from client: " <<  clientSocket << " "<< buffer << endl;
             lock.unlock();
