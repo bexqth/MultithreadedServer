@@ -7,7 +7,7 @@ class Client {
         sockaddr_in serverAddress;
     public:
         Client();
-        void connectToServer();
+        bool connectToServer();
         void sendMessToServer(std::string message);
         ~Client();
 };

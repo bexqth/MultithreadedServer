@@ -12,13 +12,18 @@ Server::Server() {
     this->serverAddress.sin_family = AF_INET;
     this->serverAddress.sin_port = htons(8080);
     this->serverAddress.sin_addr.s_addr = INADDR_ANY;
-
-    bind(this->serverSocket, (struct sockaddr*)&this->serverAddress, sizeof(this->serverAddress)); //binding the socket to this server
+    //bind(this->serverSocket, (struct sockaddr*)&this->serverAddress, sizeof(this->serverAddress))   
+    if (::bind(this->serverSocket, (struct sockaddr*)&this->serverAddress, sizeof(this->serverAddress)) < 0) {
+        perror("Bind failed");
+        exit(1);
+    }
+     //binding the socket to this server
 }
 
 void Server::startServer()
 {
     listen(this->serverSocket, 5);
+
     while(true) {
         cout << "waiting for connecting " << endl;
 
@@ -26,8 +31,9 @@ void Server::startServer()
         cout << "connected client " << clientSocket << endl;
 
         thread clientThread(&Server::handleClient, this, clientSocket);
+        //this->threads.push_back(std::move(clientThread));
+        
         clientThread.detach();
-        this->threads.push_back(move(clientThread));
     }
 }
 

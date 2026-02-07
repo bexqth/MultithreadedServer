@@ -6,10 +6,10 @@ using namespace std;
 
 int main() {
     Client client;
-    client.connectToServer();
+    bool connected = client.connectToServer();
     string userInput;
-
-    while(userInput != "end") {
+    if (connected) {
+        while(userInput != "end") {
         cout << "Enter message to be sent (type 'end' to quit): " << endl;
         
         getline(cin, userInput);
@@ -19,7 +19,7 @@ int main() {
         }
 
         client.sendMessToServer(userInput);
+        }
     }
-
     return 0;
 }
