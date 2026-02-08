@@ -9,8 +9,8 @@ int main() {
     bool connected = client.connectToServer();
     
     if (connected) {
+        cout << "How much to take from storage (type 'end' to quit): " << endl;
         while(true) {
-            cout << "How much to take from storage (type 'end' to quit): " << endl;
             client.handleUserInput();
         }
     }
