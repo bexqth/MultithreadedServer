@@ -61,6 +61,7 @@ void Server::handleClient(int clientSocket)
         
         if(bytes <= 0) {
             cout << "Client disconnected: " << endl;
+            //remove client
             close(clientSocket);
             break;
         } else {
@@ -68,16 +69,16 @@ void Server::handleClient(int clientSocket)
             int valueRequest = atoi(buffer);
             if (this->storage - valueRequest < 0) {
                 cout << "No enough in storage " << endl;
+                lock.unlock();
             } else {
                 this->storage -= valueRequest;
                 cout << "Client took " << valueRequest << endl;
                 cout << "Left in storage " << this->storage << endl;
                 string responseToClient = "U took " + to_string(valueRequest) + ". Left in storage " + to_string(this->storage) + "\n"; 
                 send(clientSocket, responseToClient.c_str(), responseToClient.length(), 0);
+                lock.unlock();
                 informOtherClients(clientSocket);
             }
-            //cout << "Message from client: " <<  clientSocket << " "<< buffer << endl;
-            lock.unlock();
         }
 
     }
