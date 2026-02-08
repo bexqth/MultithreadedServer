@@ -20,6 +20,8 @@ bool Client::connectToServer()
     int con = connect(this->clientSocket, (struct sockaddr*)&this->serverAddress, sizeof(this->serverAddress));
     if (con != -1) {
         cout << "Connected to server " << endl;
+        thread recievingMessThread(&Client::listenToServer, this);
+        recievingMessThread.detach();
         return true;
     } else {
         perror("Connect failed"); 
@@ -40,6 +42,25 @@ void Client::recieveMessFromServer()
         cout << "Server answer: " << buffer << endl;
     } else {
         cout << "Connection lost" << endl;
+        exit(0);
+    }
+}
+
+void Client::handleUserInput()
+{
+    string userInput;
+    cout << "How much to take from storage (type 'end' to quit): " << endl;
+    getline(cin, userInput);
+    if(userInput == "end") {
+        exit(0);
+    }
+    this->sendMessToServer(userInput);
+}
+
+void Client::listenToServer()
+{
+    while(true) {
+        this->recieveMessFromServer();
     }
 }
 

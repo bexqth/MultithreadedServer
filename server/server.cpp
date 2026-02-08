@@ -65,8 +65,8 @@ void Server::handleClient(int clientSocket)
             unique_lock<mutex> clientSocketsLock(this->clientSocketsMutex);
             this->removeClient(clientSocket);
             this->printListOfClient();
-            close(clientSocket);
             clientSocketsLock.unlock();
+            close(clientSocket);
             break;
         } else {
             unique_lock<mutex> lock(this->mtx);
