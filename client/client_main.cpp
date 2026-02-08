@@ -10,6 +10,7 @@ int main() {
     
     if (connected) {
         while(true) {
+            cout << "How much to take from storage (type 'end' to quit): " << endl;
             client.handleUserInput();
         }
     }

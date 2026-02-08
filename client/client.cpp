@@ -39,7 +39,10 @@ void Client::recieveMessFromServer()
     char buffer[1024] = {0};
     int bytes = recv(this->clientSocket, buffer, sizeof(buffer), 0);
     if (bytes > 0) {
-        cout << "Server answer: " << buffer << endl;
+        cout << "Server answer: " << endl; 
+        cout << buffer << endl;
+        cout << "--------------------------------------------" << endl;
+        cout << "How much to take from storage (type 'end' to quit): " << endl;
     } else {
         cout << "Connection lost" << endl;
         exit(0);
@@ -49,7 +52,6 @@ void Client::recieveMessFromServer()
 void Client::handleUserInput()
 {
     string userInput;
-    cout << "How much to take from storage (type 'end' to quit): " << endl;
     getline(cin, userInput);
     if(userInput == "end") {
         exit(0);
