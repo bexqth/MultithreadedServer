@@ -61,8 +61,10 @@ void Server::handleClient(int clientSocket)
         
         if(bytes <= 0) {
             cout << "Client disconnected: " << endl;
-            //remove client
+            unique_lock<mutex> clientSocketsLock(this->clientSocketsMutex);
+            removeClient(clientSocket);
             close(clientSocket);
+            clientSocketsLock.unlock();
             break;
         } else {
             unique_lock<mutex> lock(this->mtx);
@@ -82,6 +84,18 @@ void Server::handleClient(int clientSocket)
         }
 
     }
+}
+
+void Server::removeClient(int clientSocket)
+{
+    for (size_t i = 0; i < clientSockets.size(); i++)
+    {
+        if(clientSockets.at(i) == clientSocket) {
+            clientSockets.erase(clientSockets.begin() + i);
+            break;
+        }
+    }
+    
 }
 
 Server::~Server()
