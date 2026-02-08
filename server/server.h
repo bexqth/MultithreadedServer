@@ -17,5 +17,6 @@ class Server {
         void informOtherClients(int clientSocket);
         void handleClient(int clientSocket);
         void removeClient(int clientSocket);
+        void printListOfClient();
         ~Server();
 };
