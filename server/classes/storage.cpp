@@ -1,4 +1,4 @@
-#include "storage.h"
+#include "Storage.h"
 #include <iostream>
 #include <cstring>
 using namespace std;
@@ -12,6 +12,7 @@ Storage::Storage()
 
 Storage::~Storage()
 {
+
 }
 
 void Storage::printStorage()
