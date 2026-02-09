@@ -10,7 +10,11 @@ SimulationEngine::SimulationEngine()
 
 SimulationEngine::~SimulationEngine()
 {
-
+    for (int i = 0; i < this->workers.size(); i++)
+    {
+        delete this->workers[i];
+    }
+    
 }
 
 void SimulationEngine::addWorker(Worker *newWorker)
